@@ -158,7 +158,27 @@ def generate_images(generator, save_dir, batch_size, noise_shape, grid_size=4):
         fig.axes.get_xaxis().set_visible(False)
         fig.axes.get_yaxis().set_visible(False)
     plt.tight_layout()
-    plt.savefig(save_dir + str(time.time()) + "_generated_image.png", bbox_inches='tight', pad_inches=0)
+    plt.savefig(save_dir + str(time.time()) + "_generated_images.png", bbox_inches='tight', pad_inches=0)
+    plt.show()
+
+
+def display_real_images(save_dir, real_data_X, grid_size=4):
+    print("Displaying real images")
+    plt.figure(figsize=(grid_size, grid_size))
+    gs1 = gridspec.GridSpec(grid_size, grid_size)
+    gs1.update(wspace=0, hspace=0)
+    rand_indices = np.random.choice(real_data_X.shape[0], grid_size**2, replace=False)
+    for i in range(grid_size**2):
+        ax1 = plt.subplot(gs1[i])
+        ax1.set_aspect('equal')
+        rand_index = rand_indices[i]
+        image = real_data_X[rand_index, :, :, :]
+        fig = plt.imshow(denorm_img(image))
+        plt.axis('off')
+        fig.axes.get_xaxis().set_visible(False)
+        fig.axes.get_yaxis().set_visible(False)
+    plt.tight_layout()
+    plt.savefig(save_dir + str(time.time()) + "_sampled_images.png", bbox_inches='tight', pad_inches=0)
     plt.show()
 
 
@@ -202,8 +222,8 @@ if __name__ == "__main__":
                     help="number of training steps between save model")
     ap.add_argument("-ss", "--steps_to_sample", type=int, default=200,
                     help="number of training steps between save image samples")
-    ap.add_argument("-g", "--generation", type=int, default=1,
-                    help="1 if training, 0 if generation")
+    ap.add_argument("-m", "--mode", type=int, default=0,
+                    help="0 training, 1 generation, 2 display real samples")
     ap.add_argument("-w", "--window_size", type=int, default=4,
                     help="when generating images this is the size of a window containing w*w images")
     args = vars(ap.parse_args())
@@ -217,7 +237,7 @@ if __name__ == "__main__":
     project_name = args["name"]
     data_dir = args["dataset_dir"] + "/"
     initial_step = args["initial_step"]  # if load_model_dir is not None then load the model at the step initial_step
-    training = args["generation"]
+    mode = args["mode"]
     window_size = args["window_size"]
 
     img_save_dir = "results/" + project_name + "/"
@@ -253,8 +273,13 @@ if __name__ == "__main__":
     noise = gen_noise(batch_size, noise_shape)
     fake_data_X = generator.predict(noise)
 
-    if not training:
+    if mode == 1:
         generate_images(generator, img_save_dir, batch_size, noise_shape, window_size)
+        sys.exit()
+
+    if mode == 2:
+        real_data_X = sample_from_dataset(batch_size, image_shape, data_dir=data_dir)
+        display_real_images(img_save_dir, real_data_X, window_size)
         sys.exit()
 
     # start training
