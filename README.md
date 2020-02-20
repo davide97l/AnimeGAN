@@ -12,7 +12,7 @@ $ python DCGAN.py -n name_project -d dataset -t 20000 -i 10000
 ```
 Generate some images with the traine model saved at the 10000 epoch:
 ```
-$ python DCGAN.py -n name_project -i 10000 -g 0 -x 4
+$ python DCGAN.py -n name_project -i 10000 -m 1 -w 4
 ```
 See more options:
 ```
