@@ -1,4 +1,4 @@
-# GAN
+# DCGAN
 
 ## How to use
 
