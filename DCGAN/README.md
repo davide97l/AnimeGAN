@@ -18,3 +18,6 @@ See more options:
 ```
 $ python DCGAN.py -h
 ```
+## How to get the dataset
+
+- The anime dataset can be found on the following drive folder: https://drive.google.com/file/d/1HG7YnakUkjaxtNMclbl2t5sJwGLcHYsI/view?usp=sharing or https://github.com/Mckinsey666/Anime-Face-Dataset
