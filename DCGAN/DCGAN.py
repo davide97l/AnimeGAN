@@ -205,7 +205,7 @@ if __name__ == "__main__":
     """
     example: python DCGAN.py -n AnimeGAN -d anime_dataset
     example: python DCGAN.py -n AnimeGAN -d anime_dataset -t 20000
-    example: python DCGAN.py -n AnimeGAN -i 19999 -g 0 -x 4
+    example: python DCGAN.py -n AnimeGAN -i 19999 -m 0 -w 4
     """
     ap = argparse.ArgumentParser()
     ap.add_argument("-n", "--name", type=str, required=True,
