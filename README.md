@@ -1,4 +1,4 @@
-# GAN
+# AnimeGAN
 
 ## DCGAN: 
 - AnimeGAN
